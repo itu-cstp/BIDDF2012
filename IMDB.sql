@@ -25,8 +25,16 @@ CREATE TABLE productions (
   id INT PRIMARY KEY AUTO_INCREMENT,
   title VARCHAR(256),
   typeId INT REFERENCES prodTypes(id),
-  gId INT REFERENCES genres(id),
-          childOf INT REFERENCES productions(id)
+  childOf INT REFERENCES productions(id)
+)
+
+CREATE TABLE productionHasGenres
+(
+  production_id int,
+  genres_id int,
+  primary key (production_id, genres_id),
+  production_id references production(id),
+  genres_id references genres(id)
 )
 
 CREATE TABLE roles(
