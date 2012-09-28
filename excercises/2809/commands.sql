@@ -12,4 +12,8 @@ select director, min(year) as year FROM danishMovies group by director;
 
 select director, max(imdbRank) as r from danishMovies group by director order by r desc;
 
+select * from danishMovies dm1 WHERE 1 = (SELECT count(director) FROM danishMovies dm2 WHERE dm1.director=dm2.director);
 
+select distinct(concat(title, " - ", director)) from danishMovies;
+
+select title, year from danishMovies d1 WHERE 10<(SELECT count(*) FROM danishMovies d2 WHERE d1.year = d2.year);
