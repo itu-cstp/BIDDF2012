@@ -44,7 +44,7 @@ CREATE TABLE roles(
 
 CREATE TABLE positionRoles(
   posId INT REFERENCES positions(id),
-  rolId INT REFERENCES roles(id)
+  rolId INT REFERENCES roles(id),
   PRIMARY KEY(posId, rolId)
 )
 
@@ -53,7 +53,8 @@ CREATE TABLE positions(
   endDate DATE,
   persId int REFERENCES persons(id),
   prodId int REFERENCES productions(id),
-  posTypId int REFERENCES posTypes(id)
+  posTypId int REFERENCES posTypes(id),
+  PRIMARY KEY(persId, prodId, posTypId)
 )
 
 
