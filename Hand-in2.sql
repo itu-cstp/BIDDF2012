@@ -139,3 +139,16 @@ WHERE		p.gender LIKE "f" AND
 								
 								
 #Statement 14
+select avg(rating), genres.name from genres, hasGenres join productions on productions.id = hasGenres.prodId where genres.id = hasGenres.genreId group by genres.name LIMIT 0, 1000
+
+# since the query uses only foreign keys that are already indexed there's no improvement in indexing either genres.id or hasGenres.id.
+
+#Statement 15
+SELECT count(ratings.rating) as c, genres.name from ratings, hasGenres, genres 
+WHERE hasGenres.genreId = genres.id AND ratings.movieId = hasGenres.prodId  group by genres.name having c > 10;	
+
+improvements:
+#create index ratingIndex on ratings(movieId);
+
+this improves the query time from ~1.434 to ~0.139
+
