@@ -152,3 +152,13 @@ improvements:
 
 this improves the query time from ~1.434 to ~0.139
 
+#statement 17
+select count(distinct(persons.id)) from persons, positions, posTypes 
+where persons.id = positions.persId and positions.posTypId = posTypes.id and posTypes.name = "Director" and persons.id in
+(select distinct(persons.id) from persons, positions, posTypes 
+where persons.id = positions.persId and positions.posTypId = posTypes.id and posTypes.name = "Actor");
+
+improvements:
+create index postypIndex on positions(posTypId);
+this improves the time from 4.6 sec to about 1.7 sec.
+
