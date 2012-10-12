@@ -1,3 +1,5 @@
+insert into hasLanguage select movie.Id, language.Id from movie join language on movie.language = language.name;
+
 #Statement 1 √
 SELECT 		COUNT(*)
 FROM 		hasLanguage, language
@@ -6,6 +8,7 @@ WHERE 		hasLanguage.languageId = language.id AND
 			
 	#Indexes: √
 	#Already indexed on primary key
+	#Time:	0.001 s
 	
 		
 #Statement 2 √
@@ -16,9 +19,10 @@ GROUP BY	YEAR(releaseDate);
 	#Indexes: √
 	#None, as MySQL does not support functional indexing
 	#No speed to be gained from releaseDate index
+	#Time:	0.057 s
 	
 
-#Statement 3
+#Statement 3 √
 SELECT		productions.title
 FROM		productions, positions, persons, posTypes
 WHERE		productions.id = positions.prodId AND
@@ -32,27 +36,50 @@ WHERE		productions.id = positions.prodId AND
 										persons.id = positions.persId AND
 										persons.name LIKE "Uma Thurman" AND
 										positions.posTypId = posTypes.id AND
-										posTypes.name LIKE "actor" AND);
+										posTypes.name LIKE "actor");
 									
 	#Indexes: √
-	#Already indexed on primary key
+	#Added index on persons.name
+		CREATE INDEX 	nameIndex
+		ON				persons (name);
+	#Time before:	7.535 s
+	#Time after:	0.022 s
 									
-#Statement 4
+#Statement 4 √
 SELECT		COUNT(*)
 FROM		persons, positions, posTypes
 WHERE		persons.name LIKE "Q%" AND
 			persons.id = positions.persId AND
 			positions.posTypId = posTypes.id AND
 			(posTypes.name LIKE "actor" OR posTypes.name LIKE "director");
+			
+	#Indexes: √
+	#Added index on persons.name
+		CREATE INDEX 	nameIndex
+		ON				persons (name);
+	#Time before:	0.082 s
+	#Time after:	0.006 s
+			
 		
-#Statement 5
+#Statement 5 √
 SELECT		COUNT(*)
 FROM		(	SELECT		COUNT(*)
 				FROM 		ratings
 				GROUP BY	ratings.user
 				HAVING		COUNT(*) > 10) r;
+				
+	#Indexes: √
+	#No primary key index existed due to the nature of the data (some users rated the
+	#same movie multiple times, with the same rating)
+	#Added index on ratings.user, even though it showed no improvement
+	#We do, however, believe the index would improve performance when more data is added
+		CREATE INDEX 	userIndex
+		ON				ratings (user);
+	#Time before:	0.002 s
+	#Time after:	0.002 s
+	
 
-#Statement 6
+#Statement 6 √
 SELECT		persons.name, YEAR(birthDate) birthYear
 FROM		persons, positions, productions, posTypes
 WHERE		persons.id = positions.persId AND
@@ -62,22 +89,43 @@ WHERE		persons.id = positions.persId AND
 			posTypes.name LIKE "actor"
 ORDER BY	birthYear;
 
-#Statement 7
+	#Indexes: √
+	#Added index on productions.title
+		CREATE INDEX 	titleIndex
+		ON				productions (title);
+	#Time before:	3.677 s
+	#Time after:	0.768 s
+	
+
+#Statement 7 √
 SELECT		title, YEAR(releaseDate)
 FROM		productions, positions, persons
 WHERE		productions.id = positions.prodId AND
 			positions.persId = persons.id AND
 			persons.name LIKE "John Travolta" AND
 			(10 * FLOOR(YEAR(productions.releaseDate) / 10)) = 1980;
+			
+	#Indexes: √
+	#Added index on persons.name
+		CREATE INDEX 	nameIndex
+		ON				persons (name);
+	#Time before:	0.078 s
+	#Time after:	0.001 s
+	
 		
-#Statement 8
+#Statement 8 √
 SELECT		*
 FROM		productions
 WHERE		(10 * FLOOR(YEAR(productions.releaseDate) / 10)) = 1990
 ORDER BY	rating DESC
 LIMIT		5;
 
-#Statement 9
+	#Indexes: √
+	#No indexes are uses, due to MySQL not supporting functional indexing
+	#Time:	0.061 s
+	
+
+#Statement 9 √
 SELECT		p.id, p.title, AVG(r.rating) averageRating
 FROM		productions p, ratings r
 WHERE		p.id = r.movieId AND
@@ -89,13 +137,27 @@ GROUP BY	p.id
 ORDER BY	averageRating DESC
 LIMIT		5;
 
-#Statement 10
+	#Indexes: √
+	#Added index on ratings.movieId
+		CREATE INDEX 	movieIdIndex
+		ON				ratings (movieId);
+	#Time before:	0.048 s
+	#Time after:	0.006 s
+	
+
+#Statement 10 √
 SELECT		l.name, AVG(p.rating)
 FROM		productions p, hasLanguage h, language l
 WHERE		p.id = h.prodId AND
 			l.id = h.languageId AND
 			YEAR(p.releaseDate) = 1994
 GROUP BY	l.name;
+
+	#Indexes: √
+	#Uses mostly primary key indexes
+	#Adding an index on language.name did not improve performance
+	#Time:	0.191 s
+	
 
 #Statement 11
 SELECT  pers.name
@@ -120,9 +182,15 @@ WHERE   pers.id = positions.persId AND
                                                         WHERE   persons.id = positions.persId AND
                                                                 productions.id = positions.prodId AND
                                                                 productions.title LIKE "Pulp Fiction")));
+
+	#Indexes:
+	#
+		
+	#Time before:	? s
+	#Time after:	? s
+	                                           	
                                                             	
-                                                            	
-#Statement 12
+#Statement 12 √
 SELECT		prod.title
 FROM		productions prod, positions pos, persons pers, posTypes
 WHERE		prod.id = pos.prodId AND
@@ -132,9 +200,16 @@ WHERE		prod.id = pos.prodId AND
         	posTypes.name LIKE "actor"
 ORDER BY	prod.rating DESC
 LIMIT		1;					
+
+	#Indexes: √
+	#Added index on persons.name
+		CREATE INDEX 	nameIndex
+		ON				persons (name);
+	#Time before:	0.077 s
+	#Time after:	0.002 s
 	
 										
-#Statement 13
+#Statement 13 √
 SELECT		COUNT(*)
 FROM		persons p
 WHERE		p.gender LIKE "f" AND
@@ -144,3 +219,35 @@ WHERE		p.gender LIKE "f" AND
 			p.birthDate > (		SELECT	deathDate
 								FROM	persons
 								WHERE	name LIKE "Charles Chaplin"));
+								
+	#Indexes: √
+	Added index on persons.name
+		CREATE INDEX 	nameIndex
+		ON				persons (name);
+	#Time before:	0.235 s
+	#Time after:	0.132 s
+	
+
+#Statement 14
+select avg(rating), genres.name from genres, hasGenres join productions on productions.id = hasGenres.prodId where genres.id = hasGenres.genreId group by genres.name LIMIT 0, 1000
+
+# since the query uses only foreign keys that are already indexed there's no improvement in indexing either genres.id or hasGenres.id.
+
+#Statement 15
+SELECT count(ratings.rating) as c, genres.name from ratings, hasGenres, genres 
+WHERE hasGenres.genreId = genres.id AND ratings.movieId = hasGenres.prodId  group by genres.name having c > 10;	
+
+improvements:
+#create index ratingIndex on ratings(movieId);
+
+this improves the query time from ~1.434 to ~0.139
+
+#statement 17
+select count(distinct(persons.id)) from persons, positions, posTypes 
+where persons.id = positions.persId and positions.posTypId = posTypes.id and posTypes.name = "Director" and persons.id in
+(select distinct(persons.id) from persons, positions, posTypes 
+where persons.id = positions.persId and positions.posTypId = posTypes.id and posTypes.name = "Actor");
+
+improvements:
+create index postypIndex on positions(posTypId);
+this improves the time from 4.6 sec to about 1.7 sec.
