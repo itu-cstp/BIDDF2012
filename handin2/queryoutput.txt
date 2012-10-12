@@ -1,0 +1,892 @@
+## 1 ##
+
+mysql> SELECT    COUNT(*) FROM    hasLanguage, language WHERE     hasLanguage.languageId = language.id AND       language.name = "Danish";
++----------+
+| COUNT(*) |
++----------+
+|      419 |
++----------+
+1 row in set (0.23 sec)
+
+mysql> explain SELECT    COUNT(*) FROM    hasLanguage, language WHERE     hasLanguage.languageId = language.id AND       language.name = "Danish";
++----+-------------+-------------+--------+------------------------------+------------------------------+---------+-----------------------------+-------+-------------+
+| id | select_type | table       | type   | possible_keys                | key                          | key_len | ref                         | rows  | Extra       |
++----+-------------+-------------+--------+------------------------------+------------------------------+---------+-----------------------------+-------+-------------+
+|  1 | SIMPLE      | hasLanguage | index  | fk_hasLanguage_language1_idx | fk_hasLanguage_language1_idx | 5       | NULL                        | 62200 | Using index |
+|  1 | SIMPLE      | language    | eq_ref | PRIMARY                      | PRIMARY                      | 4       | BIDD.hasLanguage.languageId |     1 | Using where |
++----+-------------+-------------+--------+------------------------------+------------------------------+---------+-----------------------------+-------+-------------+
+2 rows in set (0.00 sec)
+
+## 2 ## 
+SELECT    YEAR(releaseDate), SUM(votes)
+    -> FROM    productions
+        -> GROUP BY  YEAR(releaseDate);
+        +-------------------+------------+
+        | YEAR(releaseDate) | SUM(votes) |
+        +-------------------+------------+
+        |              NULL |   54824211 |
+        |              1888 |       2476 |
+        |              1894 |       1170 |
+        |              1896 |       1527 |
+        |              1899 |        217 |
+        |              1900 |        897 |
+        |              1901 |        994 |
+        |              1902 |      12923 |
+        |              1903 |      10893 |
+        |              1904 |       1754 |
+        |              1905 |       1587 |
+        |              1906 |        584 |
+        |              1907 |       1313 |
+        |              1908 |       2005 |
+        |              1909 |       3809 |
+        |              1910 |       3988 |
+        |              1911 |       2106 |
+        |              1912 |       5301 |
+        |              1913 |       2289 |
+        |              1914 |      20835 |
+        |              1915 |      22561 |
+        |              1916 |      21349 |
+        |              1917 |      12744 |
+        |              1918 |      11938 |
+        |              1919 |      19198 |
+        |              1920 |      16059 |
+        |              1921 |      70433 |
+        |              1922 |      19254 |
+        |              1923 |      22730 |
+        |              1924 |      30493 |
+        |              1925 |      36069 |
+        |              1926 |      21496 |
+        |              1927 |     114057 |
+        |              1928 |      48164 |
+        |              1929 |     107146 |
+        |              1930 |      85125 |
+        |              1931 |     188044 |
+        |              1932 |     151934 |
+        |              1933 |     191995 |
+        |              1934 |     145132 |
+        |              1935 |     160771 |
+        |              1936 |     188263 |
+        |              1937 |     131336 |
+        |              1938 |     265387 |
+        |              1939 |     400094 |
+        |              1940 |     479263 |
+        |              1941 |     515926 |
+        |              1942 |     201801 |
+        |              1943 |     373213 |
+        |              1944 |     206174 |
+        |              1945 |     174567 |
+        |              1946 |     240658 |
+        |              1947 |     326977 |
+        |              1948 |     278701 |
+        |              1949 |     189090 |
+        |              1950 |     273011 |
+        |              1951 |     350279 |
+        |              1952 |     297052 |
+        |              1953 |     252296 |
+        |              1954 |     256974 |
+        |              1955 |     299959 |
+        |              1956 |     531908 |
+        |              1957 |     262142 |
+        |              1958 |     249182 |
+        |              1959 |     370189 |
+        |              1960 |     519633 |
+        |              1961 |     398882 |
+        |              1962 |     386640 |
+        |              1963 |     572458 |
+        |              1964 |     608281 |
+        |              1965 |     443835 |
+        |              1966 |     302887 |
+        |              1967 |     968318 |
+        |              1968 |     836529 |
+        |              1969 |     388614 |
+        |              1970 |     390545 |
+        |              1971 |     611280 |
+        |              1972 |    1310723 |
+        |              1973 |     605560 |
+        |              1974 |    1031874 |
+        |              1975 |     981775 |
+        |              1976 |     998508 |
+        |              1977 |    1128518 |
+        |              1978 |     735047 |
+        |              1979 |    1639453 |
+        |              1980 |    1707302 |
+        |              1981 |    1209714 |
+        |              1982 |    1911013 |
+        |              1983 |    1817803 |
+        |              1984 |    2298087 |
+        |              1985 |    2296671 |
+        |              1986 |    2480370 |
+        |              1987 |    2746944 |
+        |              1988 |    2541465 |
+        |              1989 |    3064251 |
+        |              1990 |    3515011 |
+        |              1991 |    3034150 |
+        |              1992 |    3223082 |
+        |              1993 |    4348622 |
+        |              1994 |    6169712 |
+        |              1995 |    6003641 |
+        |              1996 |    5561733 |
+        |              1997 |    6363223 |
+        |              1998 |    6660625 |
+        |              1999 |    9423204 |
+        |              2000 |    7152206 |
+        |              2001 |    8133461 |
+        |              2002 |    8145146 |
+        |              2003 |    9766325 |
+        |              2004 |   10070924 |
+        |              2005 |   10023845 |
+        |              2006 |   10432787 |
+        |              2007 |   11752847 |
+        |              2008 |   10464137 |
+        |              2009 |    9956189 |
+        |              2010 |    9556128 |
+        |              2011 |    8920696 |
+        |              2012 |    3713260 |
+        |              2013 |       2167 |
+        |              2014 |        290 |
+        +-------------------+------------+
+        120 rows in set (0.12 sec)
+
+mysql> explain SELECT    YEAR(releaseDate), SUM(votes) FROM    productions GROUP BY  YEAR(releaseDate);
++----+-------------+-------------+------+---------------+------+---------+------+-------+---------------------------------+
+| id | select_type | table       | type | possible_keys | key  | key_len | ref  | rows  | Extra                           |
++----+-------------+-------------+------+---------------+------+---------+------+-------+---------------------------------+
+|  1 | SIMPLE      | productions | ALL  | NULL          | NULL | NULL    | NULL | 59813 | Using temporary; Using filesort |
++----+-------------+-------------+------+---------------+------+---------+------+-------+---------------------------------+
+1 row in set (0.00 sec)
+
+## 3 ##
+mysql> SELECT    productions.title FROM    productions, positions, persons, posTypes WHERE   productions.id = positions.prodId AND       persons.id = positions.persId AND       persons.name = "John Travolta" AND       positions.posTypId = posTypes.id AND       posTypes.name = "actor" AND       productions.id IN ( SELECT  productions.id                 FROM  productions, positions, persons, posTypes                 WHERE productions.id = positions.prodId AND                     persons.id = positions.persId AND                     persons.name = "Uma Thurman" AND                     positions.posTypId = posTypes.id AND                     posTypes.name = "actor");
++----------------------------------------------------+
+| title                                              |
++----------------------------------------------------+
+| "E! True Hollywood Story"                          |
+| "Ellen: The Ellen DeGeneres Show"                  |
+| "Entertainment Tonight"                            |
+| "Friday Night with Jonathan Ross"                  |
+| "GMTV"                                             |
+| "Good Morning America"                             |
+| "HBO First Look"                                   |
+| "Late Show with David Letterman"                   |
+| "Live with Regis and Kathie Lee"                   |
+| "The Charlie Rose Show"                            |
+| "The Oprah Winfrey Show"                           |
+| "The Paul O'Grady Show"                            |
+| "The Rosie O'Donnell Show"                         |
+| "The Tonight Show with Jay Leno"                   |
+| "The View"                                         |
+| "Wetten, dass..?"                                  |
+| Be Cool                                            |
+| Boffo! Tinseltown's Bombs and Blockbusters         |
+| Midnight Movies: From the Margin to the Mainstream |
+| Pulp Fiction                                       |
+| You're Still Not Fooling Anybody                   |
++----------------------------------------------------+
+21 rows in set (4.28 sec)
+
+mysql> explain SELECT    productions.title FROM    productions, positions, persons, posTypes WHERE   productions.id = positions.prodId AND       persons.id = positions.persId AND       persons.name = "John Travolta" AND       positions.posTypId = posTypes.id AND       posTypes.name = "actor" AND       productions.id IN ( SELECT  productions.id                 FROM  productions, positions, persons, posTypes                 WHERE productions.id = positions.prodId AND                     persons.id = positions.persId AND                     persons.name = "Uma Thurman" AND                     positions.posTypId = posTypes.id AND                     posTypes.name = "actor");
++----+--------------------+-------------+--------+---------------+---------+---------+-----------------------+--------+--------------------------------+
+| id | select_type        | table       | type   | possible_keys | key     | key_len | ref                   | rows   | Extra                          |
++----+--------------------+-------------+--------+---------------+---------+---------+-----------------------+--------+--------------------------------+
+|  1 | PRIMARY            | persons     | ALL    | PRIMARY       | NULL    | NULL    | NULL                  | 167119 | Using where                    |
+|  1 | PRIMARY            | positions   | ref    | PRIMARY       | PRIMARY | 4       | BIDD.persons.id       |      6 | Using where; Using index       |
+|  1 | PRIMARY            | posTypes    | ALL    | PRIMARY       | NULL    | NULL    | NULL                  |      2 | Using where; Using join buffer |
+|  1 | PRIMARY            | productions | eq_ref | PRIMARY       | PRIMARY | 4       | BIDD.positions.prodId |      1 |                                |
+|  2 | DEPENDENT SUBQUERY | productions | eq_ref | PRIMARY       | PRIMARY | 4       | func                  |      1 | Using index                    |
+|  2 | DEPENDENT SUBQUERY | persons     | ALL    | PRIMARY       | NULL    | NULL    | NULL                  | 167119 | Using where; Using join buffer |
+|  2 | DEPENDENT SUBQUERY | positions   | ref    | PRIMARY       | PRIMARY | 8       | BIDD.persons.id,func  |      1 | Using where; Using index       |
+|  2 | DEPENDENT SUBQUERY | posTypes    | ALL    | PRIMARY       | NULL    | NULL    | NULL                  |      2 | Using where; Using join buffer |
++----+--------------------+-------------+--------+---------------+---------+---------+-----------------------+--------+--------------------------------+
+8 rows in set (0.00 sec)
+
+
+mysql>     CREATE INDEX  nameIndex
+    ->     ON        persons (name);
+
+    Query OK, 167010 rows affected (8.19 sec)
+    Records: 167010  Duplicates: 0  Warnings: 0
+
+
+## 4 ##
+
+mysql> SELECT    COUNT(*)
+    -> FROM    persons, positions, posTypes
+    -> WHERE   persons.name LIKE "Q%" AND
+    ->       persons.id = positions.persId AND
+    ->       positions.posTypId = posTypes.id AND
+    ->       (posTypes.name = "actor" OR posTypes.name = "director");
++----------+
+| COUNT(*) |
++----------+
+|     2145 |
++----------+
+1 row in set (0.12 sec)
+
+mysql> explain SELECT    COUNT(*) FROM    persons, positions, posTypes WHERE   persons.name LIKE "Q%" AND       persons.id = positions.persId AND       positions.posTypId = posTypes.id AND       (posTypes.name = "actor" OR posTypes.name = "director");
++----+-------------+-----------+------+---------------+---------+---------+-----------------+--------+--------------------------------+
+| id | select_type | table     | type | possible_keys | key     | key_len | ref             | rows   | Extra                          |
++----+-------------+-----------+------+---------------+---------+---------+-----------------+--------+--------------------------------+
+|  1 | SIMPLE      | persons   | ALL  | PRIMARY       | NULL    | NULL    | NULL            | 167559 | Using where                    |
+|  1 | SIMPLE      | positions | ref  | PRIMARY       | PRIMARY | 4       | BIDD.persons.id |      6 | Using where; Using index       |
+|  1 | SIMPLE      | posTypes  | ALL  | PRIMARY       | NULL    | NULL    | NULL            |      2 | Using where; Using join buffer |
++----+-------------+-----------+------+---------------+---------+---------+-----------------+--------+--------------------------------+
+3 rows in set (0.00 sec)
+
+mysql>     CREATE INDEX  nameIndex
+    ->     ON        persons (name);
+
+Query OK, 167010 rows affected (8.08 sec)
+Records: 167010  Duplicates: 0  Warnings: 0
+
+
+mysql> SELECT    COUNT(*) FROM    persons, positions, posTypes WHERE   persons.name LIKE "Q%" AND       persons.id = positions.persId AND       positions.posTypId = posTypes.id AND       (posTypes.name = "actor" OR posTypes.name = "director");
++----------+
+| COUNT(*) |
++----------+
+|     2145 |
++----------+
+1 row in set (0.02 sec)
+
+
+mysql> explain SELECT    COUNT(*) FROM    persons, positions, posTypes WHERE   persons.name LIKE "Q%" AND       persons.id = positions.persId AND       positions.posTypId = posTypes.id AND       (posTypes.name = "actor" OR posTypes.name = "director");
++----+-------------+-----------+-------+-------------------+-----------+---------+-----------------+------+--------------------------------+
+| id | select_type | table     | type  | possible_keys     | key       | key_len | ref             | rows | Extra                          |
++----+-------------+-----------+-------+-------------------+-----------+---------+-----------------+------+--------------------------------+
+|  1 | SIMPLE      | persons   | range | PRIMARY,nameIndex | nameIndex | 258     | NULL            |  152 | Using where; Using index       |
+|  1 | SIMPLE      | positions | ref   | PRIMARY           | PRIMARY   | 4       | BIDD.persons.id |    6 | Using where; Using index       |
+|  1 | SIMPLE      | posTypes  | ALL   | PRIMARY           | NULL      | NULL    | NULL            |    2 | Using where; Using join buffer |
++----+-------------+-----------+-------+-------------------+-----------+---------+-----------------+------+--------------------------------+
+3 rows in set (0.00 sec)
+
+## 5 ## 
+
+mysql> SELECT    COUNT(*)
+    -> FROM    ( SELECT    COUNT(*)
+    ->         FROM    ratings
+    ->         GROUP BY  ratings.user
+    ->         HAVING    COUNT(*) > 10) r;
++----------+
+| COUNT(*) |
++----------+
+|       20 |
++----------+
+1 row in set (0.01 sec)
+
+
+mysql> explain SELECT    COUNT(*) FROM    ( SELECT    COUNT(*)         FROM    ratings         GROUP BY  ratings.user         HAVING    COUNT(*) > 10) r;
++----+-------------+---------+------+---------------+------+---------+------+------+---------------------------------+
+| id | select_type | table   | type | possible_keys | key  | key_len | ref  | rows | Extra                           |
++----+-------------+---------+------+---------------+------+---------+------+------+---------------------------------+
+|  1 | PRIMARY     | NULL    | NULL | NULL          | NULL | NULL    | NULL | NULL | Select tables optimized away    |
+|  2 | DERIVED     | ratings | ALL  | NULL          | NULL | NULL    | NULL |  367 | Using temporary; Using filesort |
++----+-------------+---------+------+---------------+------+---------+------+------+---------------------------------+
+2 rows in set (0.00 sec)
+
+## 6 ##
+
+mysql> SELECT    persons.name, YEAR(birthDate) birthYear
+    -> FROM    persons, positions, productions, posTypes
+        -> WHERE   persons.id = positions.persId AND
+            ->       positions.prodId = productions.id AND
+                ->       productions.title = "Pulp Fiction" AND
+                    ->       positions.posTypId = posTypes.id AND
+                        ->       posTypes.name = "actor"
+                            -> ORDER BY  birthYear;
+                            +---------------------+-----------+
+                            | name                | birthYear |
+                            +---------------------+-----------+
+                            | Venessia Valentino  |      NULL |
+                            | Don Blakely         |      NULL |
+                            | Brad Blumenthal     |      NULL |
+                            | Patricio Calderon   |      NULL |
+                            | Emett Clark         |      NULL |
+                            | Peggy Greene        |      NULL |
+                            | Stephen Hibbert     |      NULL |
+                            | Samadu Jackson      |      NULL |
+                            | Devin Marcus Miller |      NULL |
+                            | Glendon Rich        |      NULL |
+                            | Terry Roth          |      NULL |
+                            | Richard Ruth        |      NULL |
+                            | Rian Turner         |      NULL |
+                            | Caleb Allen         |      NULL |
+                            | Bronagh Gallagher   |      NULL |
+                            | Sophie Griffiths    |      NULL |
+                            | Angel Star Jones    |      NULL |
+                            | Linda Kaye          |      NULL |
+                            | Emil Sitka          |      1914 |
+                            | Harvey Keitel       |      1939 |
+                            | Rene Beard          |      1941 |
+                            | Christopher Walken  |      1943 |
+                            | Joseph Pilato       |      1949 |
+                            | Brenda Hillhouse    |      1953 |
+                            | John Travolta       |      1954 |
+                            | Bruce Willis        |      1955 |
+                            | Lawrence Bender     |      1957 |
+                            | Steve Buscemi       |      1957 |
+                            | Amanda Plummer      |      1957 |
+                            | Karen Maruyama      |      1958 |
+                            | Duane Whitaker      |      1959 |
+                            | Ving Rhames         |      1959 |
+                            | Rosanna Arquette    |      1959 |
+                            | Julia Sweeney       |      1959 |
+                            | Kathy Griffin       |      1960 |
+                            | Eric Stoltz         |      1961 |
+                            | Michael Gilden      |      1962 |
+                            | Frank Whaley        |      1963 |
+                            | Quentin Tarantino   |      1963 |
+                            | Maria de Medeiros   |      1965 |
+                            | Burr Steers         |      1965 |
+                            | Phil LaMarr         |      1967 |
+                            | Alexis Arquette     |      1969 |
+                            | Uma Thurman         |      1970 |
+                            +---------------------+-----------+
+                            44 rows in set (3.03 sec)
+
+mysql> explain SELECT    persons.name, YEAR(birthDate) birthYear FROM    persons, positions, productions, posTypes WHERE   persons.id = positions.persId AND       positions.prodId = productions.id AND       productions.title = "Pulp Fiction" AND       positions.posTypId = posTypes.id AND       posTypes.name = "actor" ORDER BY  birthYear;
++----+-------------+-------------+--------+---------------+---------+---------+-----------------------+--------+---------------------------------+
+| id | select_type | table       | type   | possible_keys | key     | key_len | ref                   | rows   | Extra                           |
++----+-------------+-------------+--------+---------------+---------+---------+-----------------------+--------+---------------------------------+
+|  1 | SIMPLE      | persons     | ALL    | PRIMARY       | NULL    | NULL    | NULL                  | 168538 | Using temporary; Using filesort |
+|  1 | SIMPLE      | positions   | ref    | PRIMARY       | PRIMARY | 4       | BIDD.persons.id       |      6 | Using where; Using index        |
+|  1 | SIMPLE      | posTypes    | ALL    | PRIMARY       | NULL    | NULL    | NULL                  |      2 | Using where; Using join buffer  |
+|  1 | SIMPLE      | productions | eq_ref | PRIMARY       | PRIMARY | 4       | BIDD.positions.prodId |      1 | Using where                     |
++----+-------------+-------------+--------+---------------+---------+---------+-----------------------+--------+---------------------------------+
+4 rows in set (0.00 sec)
+
+mysql>     CREATE INDEX  titleIndex
+    ->     ON        productions (title);
+
+    Query OK, 59284 rows affected (1.97 sec)
+    Records: 59284  Duplicates: 0  Warnings: 0
+
+mysql> SELECT    persons.name, YEAR(birthDate) birthYear FROM    persons, positions, productions, posTypes WHERE   persons.id = positions.persId AND       positions.prodId = productions.id AND       productions.title = "Pulp Fiction" AND       positions.posTypId = posTypes.id AND       posTypes.name = "actor" ORDER BY  birthYear;
++---------------------+-----------+
+| name                | birthYear |
++---------------------+-----------+
+| Linda Kaye          |      NULL |
+| Venessia Valentino  |      NULL |
+| Don Blakely         |      NULL |
+| Brad Blumenthal     |      NULL |
+| Patricio Calderon   |      NULL |
+| Emett Clark         |      NULL |
+| Peggy Greene        |      NULL |
+| Stephen Hibbert     |      NULL |
+| Samadu Jackson      |      NULL |
+| Devin Marcus Miller |      NULL |
+| Glendon Rich        |      NULL |
+| Terry Roth          |      NULL |
+| Richard Ruth        |      NULL |
+| Rian Turner         |      NULL |
+| Caleb Allen         |      NULL |
+| Bronagh Gallagher   |      NULL |
+| Sophie Griffiths    |      NULL |
+| Angel Star Jones    |      NULL |
+| Emil Sitka          |      1914 |
+| Harvey Keitel       |      1939 |
+| Rene Beard          |      1941 |
+| Christopher Walken  |      1943 |
+| Joseph Pilato       |      1949 |
+| Brenda Hillhouse    |      1953 |
+| John Travolta       |      1954 |
+| Bruce Willis        |      1955 |
+| Amanda Plummer      |      1957 |
+| Lawrence Bender     |      1957 |
+| Steve Buscemi       |      1957 |
+| Karen Maruyama      |      1958 |
+| Duane Whitaker      |      1959 |
+| Ving Rhames         |      1959 |
+| Rosanna Arquette    |      1959 |
+| Julia Sweeney       |      1959 |
+| Kathy Griffin       |      1960 |
+| Eric Stoltz         |      1961 |
+| Michael Gilden      |      1962 |
+| Quentin Tarantino   |      1963 |
+| Frank Whaley        |      1963 |
+| Maria de Medeiros   |      1965 |
+| Burr Steers         |      1965 |
+| Phil LaMarr         |      1967 |
+| Alexis Arquette     |      1969 |
+| Uma Thurman         |      1970 |
++---------------------+-----------+
+44 rows in set (0.46 sec)
+
+mysql> explain SELECT    persons.name, YEAR(birthDate) birthYear FROM    persons, positions, productions, posTypes WHERE   persons.id = positions.persId AND       positions.prodId = productions.id AND       productions.title = "Pulp Fiction" AND       positions.posTypId = posTypes.id AND       posTypes.name = "actor" ORDER BY  birthYear;
++----+-------------+-------------+------+--------------------+------------+---------+-------------------------------------+--------+-----------------------------------------------------------+
+| id | select_type | table       | type | possible_keys      | key        | key_len | ref                                 | rows   | Extra                                                     |
++----+-------------+-------------+------+--------------------+------------+---------+-------------------------------------+--------+-----------------------------------------------------------+
+|  1 | SIMPLE      | productions | ref  | PRIMARY,titleIndex | titleIndex | 259     | const                               |      1 | Using where; Using index; Using temporary; Using filesort |
+|  1 | SIMPLE      | persons     | ALL  | PRIMARY            | NULL       | NULL    | NULL                                | 168538 | Using join buffer                                         |
+|  1 | SIMPLE      | positions   | ref  | PRIMARY            | PRIMARY    | 8       | BIDD.persons.id,BIDD.productions.id |      1 | Using where; Using index                                  |
+|  1 | SIMPLE      | posTypes    | ALL  | PRIMARY            | NULL       | NULL    | NULL                                |      2 | Using where; Using join buffer                            |
++----+-------------+-------------+------+--------------------+------------+---------+-------------------------------------+--------+-----------------------------------------------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT    title, YEAR(releaseDate)
+    -> FROM    productions, positions, persons
+    -> WHERE   productions.id = positions.prodId AND
+    ->       positions.persId = persons.id AND
+    ->       persons.name = "John Travolta" AND
+    ->       (10 * FLOOR(YEAR(productions.releaseDate) / 10)) = 1980;
++--------------------------+-------------------+
+| title                    | YEAR(releaseDate) |
++--------------------------+-------------------+
+| "Biography"              |              1987 |
+| "Entertainment Tonight"  |              1981 |
+| "Larry King Live"        |              1985 |
+| "The Oprah Winfrey Show" |              1986 |
+| Blow Out                 |              1981 |
+| Look Who's Talking       |              1989 |
+| Perfect                  |              1985 |
+| Staying Alive            |              1983 |
+| That's Dancing!          |              1985 |
+| The Experts              |              1989 |
+| Two of a Kind            |              1983 |
+| Urban Cowboy             |              1980 |
++--------------------------+-------------------+
+12 rows in set (0.08 sec)
+
+mysql> explain SELECT    title, YEAR(releaseDate) FROM    productions, positions, persons WHERE   productions.id = positions.prodId AND       positions.persId = persons.id AND       persons.name = "John Travolta" AND       (10 * FLOOR(YEAR(productions.releaseDate) / 10)) = 1980;
++----+-------------+-------------+--------+---------------+---------+---------+-----------------------+--------+--------------------------+
+| id | select_type | table       | type   | possible_keys | key     | key_len | ref                   | rows   | Extra                    |
++----+-------------+-------------+--------+---------------+---------+---------+-----------------------+--------+--------------------------+
+|  1 | SIMPLE      | persons     | ALL    | PRIMARY       | NULL    | NULL    | NULL                  | 167363 | Using where              |
+|  1 | SIMPLE      | positions   | ref    | PRIMARY       | PRIMARY | 4       | BIDD.persons.id       |      6 | Using where; Using index |
+|  1 | SIMPLE      | productions | eq_ref | PRIMARY       | PRIMARY | 4       | BIDD.positions.prodId |      1 | Using where              |
++----+-------------+-------------+--------+---------------+---------+---------+-----------------------+--------+--------------------------+
+3 rows in set (0.00 sec)
+
+mysql>     CREATE INDEX  nameIndex
+    ->     ON        persons (name);
+
+Query OK, 167010 rows affected (8.47 sec)
+Records: 167010  Duplicates: 0  Warnings: 0
+
+mysql> SELECT    title, YEAR(releaseDate) FROM    productions, positions, persons WHERE   productions.id = positions.prodId AND       positions.persId = persons.id AND       persons.name = "John Travolta" AND       (10 * FLOOR(YEAR(productions.releaseDate) / 10)) = 1980;
++--------------------------+-------------------+
+| title                    | YEAR(releaseDate) |
++--------------------------+-------------------+
+| "Biography"              |              1987 |
+| "Entertainment Tonight"  |              1981 |
+| "Larry King Live"        |              1985 |
+| "The Oprah Winfrey Show" |              1986 |
+| Blow Out                 |              1981 |
+| Look Who's Talking       |              1989 |
+| Perfect                  |              1985 |
+| Staying Alive            |              1983 |
+| That's Dancing!          |              1985 |
+| The Experts              |              1989 |
+| Two of a Kind            |              1983 |
+| Urban Cowboy             |              1980 |
++--------------------------+-------------------+
+12 rows in set (0.02 sec)
+
+
+mysql> explain SELECT    title, YEAR(releaseDate) FROM    productions, positions, persons WHERE   productions.id = positions.prodId AND       positions.persId = persons.id AND       persons.name = "John Travolta" AND       (10 * FLOOR(YEAR(productions.releaseDate) / 10)) = 1980;
++----+-------------+-------------+--------+-------------------+-----------+---------+-----------------------+------+--------------------------+
+| id | select_type | table       | type   | possible_keys     | key       | key_len | ref                   | rows | Extra                    |
++----+-------------+-------------+--------+-------------------+-----------+---------+-----------------------+------+--------------------------+
+|  1 | SIMPLE      | persons     | ref    | PRIMARY,nameIndex | nameIndex | 258     | const                 |    1 | Using where; Using index |
+|  1 | SIMPLE      | positions   | ref    | PRIMARY           | PRIMARY   | 4       | BIDD.persons.id       |    6 | Using where; Using index |
+|  1 | SIMPLE      | productions | eq_ref | PRIMARY           | PRIMARY   | 4       | BIDD.positions.prodId |    1 | Using where              |
++----+-------------+-------------+--------+-------------------+-----------+---------+-----------------------+------+--------------------------+
+3 rows in set (0.00 sec)
+
+## 8 ##
+
+mysql> SELECT    *
+    -> FROM    productions
+    -> WHERE   (10 * FLOOR(YEAR(productions.releaseDate) / 10)) = 1990
+    -> ORDER BY  rating DESC
+    -> LIMIT   5;
++-------+--------------------------+---------+-------------+------------------+--------+
+| id    | title                    | childOf | releaseDate | rating           | votes  |
++-------+--------------------------+---------+-------------+------------------+--------+
+|  5762 | "The Beatles Anthology"  |    NULL | 1995-11-19  | 9.39999961853027 |   2623 |
+|  5865 | "The Civil War"          |    NULL | 1990-09-23  | 9.39999961853027 |   3023 |
+| 53036 | The Shawshank Redemption |    NULL | 1994-10-14  | 9.30000019073487 | 826634 |
+|  4598 | "Pride and Prejudice"    |    NULL | 1996-01-14  | 9.19999980926514 |  28944 |
+|  6517 | "The Sopranos"           |    NULL | 1999-01-10  | 9.19999980926514 |  72242 |
++-------+--------------------------+---------+-------------+------------------+--------+
+5 rows in set (0.03 sec)
+
+mysql> explain SELECT    * FROM    productions WHERE   (10 * FLOOR(YEAR(productions.releaseDate) / 10)) = 1990 ORDER BY  rating DESC LIMIT   5;
++----+-------------+-------------+------+---------------+------+---------+------+-------+-----------------------------+
+| id | select_type | table       | type | possible_keys | key  | key_len | ref  | rows  | Extra                       |
++----+-------------+-------------+------+---------------+------+---------+------+-------+-----------------------------+
+|  1 | SIMPLE      | productions | ALL  | NULL          | NULL | NULL    | NULL | 55793 | Using where; Using filesort |
++----+-------------+-------------+------+---------------+------+---------+------+-------+-----------------------------+
+1 row in set (0.00 sec)
+
+## 9 ##
+
+mysql> SELECT    p.id, p.title, AVG(r.rating) averageRating
+    -> FROM    productions p, ratings r
+    -> WHERE   p.id = r.movieId AND
+    ->       (10 * FLOOR(YEAR(p.releaseDate) / 10)) = 1990 AND
+    ->       3 < ( SELECT COUNT(*)
+    ->           FROM ratings
+    ->           WHERE movieId = p.id)
+    -> GROUP BY  p.id
+    -> ORDER BY  averageRating DESC
+    -> LIMIT   5;
++-------+--------------------------+---------------+
+| id    | title                    | averageRating |
++-------+--------------------------+---------------+
+| 53036 | The Shawshank Redemption |        9.1250 |
+| 40801 | Pulp Fiction             |        9.0000 |
+| 48392 | The Big Lebowski         |        8.8000 |
+| 43343 | Schindler's List         |        8.7500 |
+| 50313 | The Green Mile           |        8.7143 |
++-------+--------------------------+---------------+
+5 rows in set (0.32 sec)
+
+mysql> explain SELECT    p.id, p.title, AVG(r.rating) averageRating FROM    productions p, ratings r WHERE   p.id = r.movieId AND       (10 * FLOOR(YEAR(p.releaseDate) / 10)) = 1990 AND       3 < ( SELECT COUNT(*)           FROM ratings           WHERE movieId = p.id) GROUP BY  p.id ORDER BY  averageRating DESC LIMIT   5;
++----+--------------------+---------+--------+---------------+---------+---------+----------------+------+---------------------------------+
+| id | select_type        | table   | type   | possible_keys | key     | key_len | ref            | rows | Extra                           |
++----+--------------------+---------+--------+---------------+---------+---------+----------------+------+---------------------------------+
+|  1 | PRIMARY            | r       | ALL    | NULL          | NULL    | NULL    | NULL           |  367 | Using temporary; Using filesort |
+|  1 | PRIMARY            | p       | eq_ref | PRIMARY       | PRIMARY | 4       | BIDD.r.movieId |    1 | Using where                     |
+|  2 | DEPENDENT SUBQUERY | ratings | ALL    | NULL          | NULL    | NULL    | NULL           |  367 | Using where                     |
++----+--------------------+---------+--------+---------------+---------+---------+----------------+------+---------------------------------+
+3 rows in set (0.00 sec)
+
+    CREATE INDEX  movieIdIndex
+    ON        ratings (movieId);
+
+mysql> SELECT    p.id, p.title, AVG(r.rating) averageRating FROM    productions p, ratings r WHERE   p.id = r.movieId AND       (10 * FLOOR(YEAR(p.releaseDate) / 10)) = 1990 AND       3 < ( SELECT COUNT(*)           FROM ratings           WHERE movieId = p.id) GROUP BY  p.id ORDER BY  averageRating DESC LIMIT   5;
++-------+--------------------------+---------------+
+| id    | title                    | averageRating |
++-------+--------------------------+---------------+
+| 53036 | The Shawshank Redemption |        9.1250 |
+| 40801 | Pulp Fiction             |        9.0000 |
+| 48392 | The Big Lebowski         |        8.8000 |
+| 43343 | Schindler's List         |        8.7500 |
+| 50313 | The Green Mile           |        8.7143 |
++-------+--------------------------+---------------+
+5 rows in set (0.04 sec)
+
+mysql> explain SELECT    p.id, p.title, AVG(r.rating) averageRating FROM    productions p, ratings r WHERE   p.id = r.movieId AND       (10 * FLOOR(YEAR(p.releaseDate) / 10)) = 1990 AND       3 < ( SELECT COUNT(*)           FROM ratings           WHERE movieId = p.id) GROUP BY  p.id ORDER BY  averageRating DESC LIMIT   5;
++----+--------------------+---------+--------+---------------+---------+---------+----------------+------+---------------------------------+
+| id | select_type        | table   | type   | possible_keys | key     | key_len | ref            | rows | Extra                           |
++----+--------------------+---------+--------+---------------+---------+---------+----------------+------+---------------------------------+
+|  1 | PRIMARY            | r       | ALL    | NULL          | NULL    | NULL    | NULL           |  367 | Using temporary; Using filesort |
+|  1 | PRIMARY            | p       | eq_ref | PRIMARY       | PRIMARY | 4       | BIDD.r.movieId |    1 | Using where                     |
+|  2 | DEPENDENT SUBQUERY | ratings | ALL    | NULL          | NULL    | NULL    | NULL           |  367 | Using where                     |
++----+--------------------+---------+--------+---------------+---------+---------+----------------+------+---------------------------------+
+3 rows in set (0.01 sec)
+
+## 10 ##
+
+mysql> SELECT    l.name, AVG(p.rating)
+    -> FROM    productions p, hasLanguage h, language l
+    -> WHERE   p.id = h.prodId AND
+    ->       l.id = h.languageId AND
+    ->       YEAR(p.releaseDate) = 1994
+    -> GROUP BY  l.name;
++------------------------+------------------+
+| name                   | AVG(p.rating)    |
++------------------------+------------------+
+|                        | 7.06756760623004 |
+| American Sign Language | 6.14999985694885 |
+| British Sign Language  |                7 |
+| English                | 5.82073733553908 |
+| Esperanto              |              3.5 |
+| Filipino               | 7.30000019073486 |
+| French                 | 6.96999998092651 |
+| French Sign Language   | 7.30000019073486 |
+| German                 | 6.21666661898295 |
+| Icelandic              | 5.40000009536743 |
+| Inuktitut              |                4 |
+| Irish Gaelic           |                6 |
+| Italian                | 6.82500004768372 |
+| Japanese               | 7.09999990463257 |
+| Klingon                |              6.5 |
+| Latin                  | 4.90000009536743 |
+| Mandarin               | 7.29999995231628 |
+| Russian                |  6.9333332379659 |
+| Scottish Gaelic        |                5 |
+| Spanish                | 6.45000004768372 |
+| Swedish                |             6.75 |
+| Vietnamese             | 6.69999980926514 |
++------------------------+------------------+
+22 rows in set (0.08 sec)
+
+mysql> explain SELECT    l.name, AVG(p.rating) FROM    productions p, hasLanguage h, language l WHERE   p.id = h.prodId AND       l.id = h.languageId AND       YEAR(p.releaseDate) = 1994 GROUP BY  l.name;
++----+-------------+-------+--------+--------------------------------------------------------------+---------------------------------+---------+-------------------+-------+----------------------------------------------+
+| id | select_type | table | type   | possible_keys                                                | key                             | key_len | ref               | rows  | Extra                                        |
++----+-------------+-------+--------+--------------------------------------------------------------+---------------------------------+---------+-------------------+-------+----------------------------------------------+
+|  1 | SIMPLE      | p     | ALL    | PRIMARY                                                      | NULL                            | NULL    | NULL              | 55793 | Using where; Using temporary; Using filesort |
+|  1 | SIMPLE      | h     | ref    | fk_hasLanguage_productions1_idx,fk_hasLanguage_language1_idx | fk_hasLanguage_productions1_idx | 5       | BIDD.p.id         |     1 | Using where                                  |
+|  1 | SIMPLE      | l     | eq_ref | PRIMARY                                                      | PRIMARY                         | 4       | BIDD.h.languageId |     1 |                                              |
++----+-------------+-------+--------+--------------------------------------------------------------+---------------------------------+---------+-------------------+-------+----------------------------------------------+
+3 rows in set (0.00 sec)
+
+## 12 ##
+
+mysql> SELECT    prod.title FROM    productions prod, positions pos, persons pers, posTypes WHERE   prod.id = pos.prodId AND       pos.persId = pers.id AND       pers.name = "John Travolta" AND       pos.posTypId = posTypes.id AND           posTypes.name = "actor" ORDER BY  prod.rating DESC LIMIT   1;
++--------------+
+| title        |
++--------------+
+| Pulp Fiction |
++--------------+
+1 row in set (0.43 sec)
+
+mysql> explain SELECT    prod.title FROM    productions prod, positions pos, persons pers, posTypes WHERE   prod.id = pos.prodId AND       pos.persId = pers.id AND       pers.name = "John Travolta" AND       pos.posTypId = posTypes.id AND           posTypes.name = "actor" ORDER BY  prod.rating DESC LIMIT   1;
++----+-------------+----------+--------+---------------+---------+---------+-----------------+--------+----------------------------------------------+
+| id | select_type | table    | type   | possible_keys | key     | key_len | ref             | rows   | Extra                                        |
++----+-------------+----------+--------+---------------+---------+---------+-----------------+--------+----------------------------------------------+
+|  1 | SIMPLE      | pers     | ALL    | PRIMARY       | NULL    | NULL    | NULL            | 167411 | Using where; Using temporary; Using filesort |
+|  1 | SIMPLE      | pos      | ref    | PRIMARY       | PRIMARY | 4       | BIDD.pers.id    |      6 | Using where; Using index                     |
+|  1 | SIMPLE      | posTypes | ALL    | PRIMARY       | NULL    | NULL    | NULL            |      2 | Using where; Using join buffer               |
+|  1 | SIMPLE      | prod     | eq_ref | PRIMARY       | PRIMARY | 4       | BIDD.pos.prodId |      1 |                                              |
++----+-------------+----------+--------+---------------+---------+---------+-----------------+--------+----------------------------------------------+
+4 rows in set (0.00 sec)
+
+mysql>     CREATE INDEX  nameIndex
+    ->     ON        persons (name);
+
+Query OK, 167010 rows affected (8.15 sec)
+Records: 167010  Duplicates: 0  Warnings: 0
+
+mysql> SELECT    prod.title FROM    productions prod, positions pos, persons pers, posTypes WHERE   prod.id = pos.prodId AND       pos.persId = pers.id AND       pers.name = "John Travolta" AND       pos.posTypId = posTypes.id AND           posTypes.name = "actor" ORDER BY  prod.rating DESC LIMIT   1;
++--------------+
+| title        |
++--------------+
+| Pulp Fiction |
++--------------+
+1 row in set (0.02 sec)
+
+
+mysql> explain SELECT    prod.title FROM    productions prod, positions pos, persons pers, posTypes WHERE   prod.id = pos.prodId AND       pos.persId = pers.id AND       pers.name = "John Travolta" AND       pos.posTypId = posTypes.id AND           posTypes.name = "actor" ORDER BY  prod.rating DESC LIMIT   1;
++----+-------------+----------+--------+-------------------+-----------+---------+-----------------+------+-----------------------------------------------------------+
+| id | select_type | table    | type   | possible_keys     | key       | key_len | ref             | rows | Extra                                                     |
++----+-------------+----------+--------+-------------------+-----------+---------+-----------------+------+-----------------------------------------------------------+
+|  1 | SIMPLE      | pers     | ref    | PRIMARY,nameIndex | nameIndex | 258     | const           |    1 | Using where; Using index; Using temporary; Using filesort |
+|  1 | SIMPLE      | pos      | ref    | PRIMARY           | PRIMARY   | 4       | BIDD.pers.id    |    6 | Using where; Using index                                  |
+|  1 | SIMPLE      | prod     | eq_ref | PRIMARY           | PRIMARY   | 4       | BIDD.pos.prodId |    1 |                                                           |
+|  1 | SIMPLE      | posTypes | ALL    | PRIMARY           | NULL      | NULL    | NULL            |    2 | Using where; Using join buffer                            |
++----+-------------+----------+--------+-------------------+-----------+---------+-----------------+------+-----------------------------------------------------------+
+4 rows in set (0.00 sec)
+
+## 13 ##
+
+mysql> SELECT    COUNT(*)
+    -> FROM    persons p
+    -> WHERE   p.gender = "f" AND
+    ->       (p.deathDate < (  SELECT  birthDate
+    ->                 FROM  persons
+    ->                 WHERE name = "Charles Chaplin") OR
+    ->       p.birthDate > (   SELECT  deathDate
+    ->                 FROM  persons
+    ->                 WHERE name = "Charles Chaplin"));
++----------+
+| COUNT(*) |
++----------+
+|     5405 |
++----------+
+1 row in set (0.14 sec)
+
+mysql> explain SELECT    COUNT(*) FROM    persons p WHERE   p.gender = "f" AND       (p.deathDate < (  SELECT  birthDate                 FROM  persons                 WHERE name = "Charles Chaplin") OR       p.birthDate > (   SELECT  deathDate                 FROM  persons                 WHERE name = "Charles Chaplin"));
++----+-------------+---------+------+---------------+------+---------+------+--------+-------------+
+| id | select_type | table   | type | possible_keys | key  | key_len | ref  | rows   | Extra       |
++----+-------------+---------+------+---------------+------+---------+------+--------+-------------+
+|  1 | PRIMARY     | p       | ALL  | NULL          | NULL | NULL    | NULL | 167810 | Using where |
+|  3 | SUBQUERY    | persons | ALL  | NULL          | NULL | NULL    | NULL | 167810 | Using where |
+|  2 | SUBQUERY    | persons | ALL  | NULL          | NULL | NULL    | NULL | 167810 | Using where |
++----+-------------+---------+------+---------------+------+---------+------+--------+-------------+
+3 rows in set (0.00 sec)
+
+mysql>     CREATE INDEX  nameIndex
+    ->     ON        persons (name);
+Query OK, 167010 rows affected (8.57 sec)
+Records: 167010  Duplicates: 0  Warnings: 0
+
+mysql> SELECT    COUNT(*) FROM    persons p WHERE   p.gender = "f" AND       (p.deathDate < (  SELECT  birthDate                 FROM  persons                 WHERE name = "Charles Chaplin") OR       p.birthDate > (   SELECT  deathDate                 FROM  persons                 WHERE name = "Charles Chaplin"));
++----------+
+| COUNT(*) |
++----------+
+|     5405 |
++----------+
+1 row in set (0.07 sec)
+
+mysql> explain SELECT    COUNT(*) FROM    persons p WHERE   p.gender = "f" AND       (p.deathDate < (  SELECT  birthDate                 FROM  persons                 WHERE name = "Charles Chaplin") OR       p.birthDate > (   SELECT  deathDate                 FROM  persons                 WHERE name = "Charles Chaplin"));
++----+-------------+---------+------+---------------+-----------+---------+-------+--------+-------------+
+| id | select_type | table   | type | possible_keys | key       | key_len | ref   | rows   | Extra       |
++----+-------------+---------+------+---------------+-----------+---------+-------+--------+-------------+
+|  1 | PRIMARY     | p       | ALL  | NULL          | NULL      | NULL    | NULL  | 166805 | Using where |
+|  3 | SUBQUERY    | persons | ref  | nameIndex     | nameIndex | 258     | const |      1 | Using where |
+|  2 | SUBQUERY    | persons | ref  | nameIndex     | nameIndex | 258     | const |      1 | Using where |
++----+-------------+---------+------+---------------+-----------+---------+-------+--------+-------------+
+3 rows in set (0.00 sec)
+
+## 14 ##
+
+mysql> SELECT    AVG(rating), genres.name
+    -> FROM    genres, hasGenres
+    -> JOIN    productions on productions.id = hasGenres.prodId
+    -> WHERE     genres.id = hasGenres.genreId
+    -> GROUP BY  genres.name
+    -> LIMIT     0, 1000;
++------------------+-------------+
+| AVG(rating)      | name        |
++------------------+-------------+
+| 5.83642500115098 | Action      |
+| 6.22340729519053 | Adventure   |
+|  6.9924033160697 | Animation   |
+| 6.82841699114177 | Biography   |
+| 6.09182438895528 | Comedy      |
+| 6.38638076033326 | Crime       |
+| 7.09980277201598 | Documentary |
+| 6.42858151593956 | Drama       |
+| 6.16567163651262 | Family      |
+|  5.6629283524748 | Fantasy     |
+|  6.9457142829895 | Film-Noir   |
+| 5.91111110581292 | Game-Show   |
+| 6.71204819162208 | History     |
+| 4.81950959251888 | Horror      |
+| 5.94634146225162 | Music       |
+| 6.13529410910479 | Musical     |
+| 5.91284404763388 | Mystery     |
+| 5.39148935104938 | News        |
+|  5.4009434044736 | Reality-TV  |
+| 6.01926344582447 | Romance     |
+| 4.81049382539443 | Sci-Fi      |
+| 6.36196079137279 | Short       |
+| 7.09629632808544 | Sport       |
+| 5.40727273767645 | Talk-Show   |
+| 5.25473373387692 | Thriller    |
+| 6.46829265501441 | War         |
+| 6.18532731382357 | Western     |
++------------------+-------------+
+27 rows in set (0.13 sec)
+
+mysql> explain SELECT    AVG(rating), genres.name FROM    genres, hasGenres JOIN    productions on productions.id = hasGenres.prodId WHERE     genres.id = hasGenres.genreId GROUP BY  genres.name LIMIT     0, 1000;
++----+-------------+-------------+--------+---------------+---------+---------+------------------------+-------+---------------------------------+
+| id | select_type | table       | type   | possible_keys | key     | key_len | ref                    | rows  | Extra                           |
++----+-------------+-------------+--------+---------------+---------+---------+------------------------+-------+---------------------------------+
+|  1 | SIMPLE      | hasGenres   | ALL    | NULL          | NULL    | NULL    | NULL                   | 59022 | Using temporary; Using filesort |
+|  1 | SIMPLE      | productions | eq_ref | PRIMARY       | PRIMARY | 4       | BIDD.hasGenres.prodId  |     1 |                                 |
+|  1 | SIMPLE      | genres      | eq_ref | PRIMARY       | PRIMARY | 4       | BIDD.hasGenres.genreId |     1 |                                 |
++----+-------------+-------------+--------+---------------+---------+---------+------------------------+-------+---------------------------------+
+3 rows in set (0.01 sec)
+
+## 15 ##
+
+mysql> SELECT    COUNT(ratings.rating) AS c, genres.name
+    -> FROM    ratings, hasGenres, genres
+    -> WHERE     hasGenres.genreId = genres.id AND
+    ->       ratings.movieId = hasGenres.prodId
+    -> GROUP BY  genres.name
+    -> HAVING    c > 10;
++-----+-----------+
+| c   | name      |
++-----+-----------+
+| 230 | Action    |
+|  40 | Adventure |
+|  11 | Biography |
+|  21 | Comedy    |
+|  82 | Crime     |
+|  95 | Drama     |
++-----+-----------+
+6 rows in set (1.56 sec)
+
+mysql> explain SELECT    COUNT(ratings.rating) AS c, genres.name FROM    ratings, hasGenres, genres WHERE     hasGenres.genreId = genres.id AND       ratings.movieId = hasGenres.prodId GROUP BY  genres.name HAVING    c > 10;
++----+-------------+-----------+--------+---------------+---------+---------+------------------------+-------+---------------------------------+
+| id | select_type | table     | type   | possible_keys | key     | key_len | ref                    | rows  | Extra                           |
++----+-------------+-----------+--------+---------------+---------+---------+------------------------+-------+---------------------------------+
+|  1 | SIMPLE      | ratings   | ALL    | NULL          | NULL    | NULL    | NULL                   |   367 | Using temporary; Using filesort |
+|  1 | SIMPLE      | hasGenres | ALL    | NULL          | NULL    | NULL    | NULL                   | 59022 | Using where; Using join buffer  |
+|  1 | SIMPLE      | genres    | eq_ref | PRIMARY       | PRIMARY | 4       | BIDD.hasGenres.genreId |     1 |                                 |
++----+-------------+-----------+--------+---------------+---------+---------+------------------------+-------+---------------------------------+
+3 rows in set (0.00 sec)
+
+mysql>     CREATE INDEX  ratingIndex
+    ->     ON        ratings (movieId);
+Query OK, 486 rows affected (0.35 sec)
+Records: 486  Duplicates: 0  Warnings: 0
+
+mysql> SELECT    COUNT(ratings.rating) AS c, genres.name
+    -> FROM    ratings, hasGenres, genres
+    -> WHERE     hasGenres.genreId = genres.id AND
+    ->       ratings.movieId = hasGenres.prodId
+    -> GROUP BY  genres.name
+    -> HAVING    c > 10;
++-----+-----------+
+| c   | name      |
++-----+-----------+
+| 230 | Action    |
+|  40 | Adventure |
+|  11 | Biography |
+|  21 | Comedy    |
+|  82 | Crime     |
+|  95 | Drama     |
++-----+-----------+
+6 rows in set (0.09 sec)
+
+mysql> explain SELECT    COUNT(ratings.rating) AS c, genres.name FROM    ratings, hasGenres, genres WHERE     hasGenres.genreId = genres.id AND       ratings.movieId = hasGenres.prodId GROUP BY  genres.name HAVING    c > 10;
++----+-------------+-----------+--------+---------------+-------------+---------+------------------------+-------+---------------------------------+
+| id | select_type | table     | type   | possible_keys | key         | key_len | ref                    | rows  | Extra                           |
++----+-------------+-----------+--------+---------------+-------------+---------+------------------------+-------+---------------------------------+
+|  1 | SIMPLE      | hasGenres | ALL    | NULL          | NULL        | NULL    | NULL                   | 59022 | Using temporary; Using filesort |
+|  1 | SIMPLE      | ratings   | ref    | ratingIndex   | ratingIndex | 5       | BIDD.hasGenres.prodId  |     2 | Using where                     |
+|  1 | SIMPLE      | genres    | eq_ref | PRIMARY       | PRIMARY     | 4       | BIDD.hasGenres.genreId |     1 |                                 |
++----+-------------+-----------+--------+---------------+-------------+---------+------------------------+-------+---------------------------------+
+3 rows in set (0.00 sec)
+
+## 17 ##
+
+mysql> SELECT    COUNT(DISTINCT (persons.id))
+    -> FROM    persons, positions, posTypes
+    -> WHERE     persons.id = positions.persId AND
+    ->       positions.posTypId = posTypes.id AND
+    ->       posTypes.name = "director" AND
+    ->       persons.id IN ( SELECT  distinct(persons.id)
+    ->               FROM  persons, positions, posTypes
+    ->               WHERE   persons.id = positions.persId AND
+    ->                   positions.posTypId = posTypes.id AND
+    ->                   posTypes.name = "actor");
++------------------------------+
+| COUNT(DISTINCT (persons.id)) |
++------------------------------+
+|                         5930 |
++------------------------------+
+1 row in set (2.95 sec)
+
+mysql> explain SELECT    COUNT(DISTINCT (persons.id)) FROM    persons, positions, posTypes WHERE     persons.id = positions.persId AND       positions.posTypId = posTypes.id AND       posTypes.name = "director" AND       persons.id IN ( SELECT  distinct(persons.id)               FROM  persons, positions, posTypes               WHERE   persons.id = positions.persId AND                   positions.posTypId = posTypes.id AND                   posTypes.name = "actor");
++----+--------------------+-----------+--------+---------------+---------+---------+-----------------+--------+--------------------------------+
+| id | select_type        | table     | type   | possible_keys | key     | key_len | ref             | rows   | Extra                          |
++----+--------------------+-----------+--------+---------------+---------+---------+-----------------+--------+--------------------------------+
+|  1 | PRIMARY            | persons   | index  | PRIMARY       | PRIMARY | 4       | NULL            | 168020 | Using where; Using index       |
+|  1 | PRIMARY            | positions | ref    | PRIMARY       | PRIMARY | 4       | BIDD.persons.id |      6 | Using where; Using index       |
+|  1 | PRIMARY            | posTypes  | ALL    | PRIMARY       | NULL    | NULL    | NULL            |      2 | Using where; Using join buffer |
+|  2 | DEPENDENT SUBQUERY | persons   | eq_ref | PRIMARY       | PRIMARY | 4       | func            |      1 | Using index; Using temporary   |
+|  2 | DEPENDENT SUBQUERY | positions | ref    | PRIMARY       | PRIMARY | 4       | BIDD.persons.id |      6 | Using where; Using index       |
+|  2 | DEPENDENT SUBQUERY | posTypes  | ALL    | PRIMARY       | NULL    | NULL    | NULL            |      2 | Using where; Using join buffer |
++----+--------------------+-----------+--------+---------------+---------+---------+-----------------+--------+--------------------------------+
+6 rows in set (0.00 sec)
+
+mysql>     CREATE INDEX  posTypIndex
+    ->     ON        positions (posTypId);
+Query OK, 1997903 rows affected (48.52 sec)
+Records: 1997903  Duplicates: 0  Warnings: 0
+
+mysql> SELECT    COUNT(DISTINCT (persons.id)) FROM    persons, positions, posTypes WHERE     persons.id = positions.persId AND       positions.posTypId = posTypes.id AND       posTypes.name = "director" AND       persons.id IN ( SELECT  distinct(persons.id)               FROM  persons, positions, posTypes               WHERE   persons.id = positions.persId AND                   positions.posTypId = posTypes.id AND                   posTypes.name = "actor");
++------------------------------+
+| COUNT(DISTINCT (persons.id)) |
++------------------------------+
+|                         5930 |
++------------------------------+
+1 row in set (1.13 sec)
+
+mysql> explain SELECT    COUNT(DISTINCT (persons.id)) FROM    persons, positions, posTypes WHERE     persons.id = positions.persId AND       positions.posTypId = posTypes.id AND       posTypes.name = "director" AND       persons.id IN ( SELECT  distinct(persons.id)               FROM  persons, positions, posTypes               WHERE   persons.id = positions.persId AND                   positions.posTypId = posTypes.id AND                   posTypes.name = "actor");
++----+--------------------+-----------+--------+---------------------+-------------+---------+-----------------------+--------+--------------------------------+
+| id | select_type        | table     | type   | possible_keys       | key         | key_len | ref                   | rows   | Extra                          |
++----+--------------------+-----------+--------+---------------------+-------------+---------+-----------------------+--------+--------------------------------+
+|  1 | PRIMARY            | posTypes  | ALL    | PRIMARY             | NULL        | NULL    | NULL                  |      2 | Using where                    |
+|  1 | PRIMARY            | positions | ref    | PRIMARY,posTypIndex | posTypIndex | 4       | BIDD.posTypes.id      | 111019 | Using index                    |
+|  1 | PRIMARY            | persons   | eq_ref | PRIMARY             | PRIMARY     | 4       | BIDD.positions.persId |      1 | Using where; Using index       |
+|  2 | DEPENDENT SUBQUERY | persons   | eq_ref | PRIMARY             | PRIMARY     | 4       | func                  |      1 | Using index; Using temporary   |
+|  2 | DEPENDENT SUBQUERY | positions | ref    | PRIMARY,posTypIndex | PRIMARY     | 4       | BIDD.persons.id       |      5 | Using where; Using index       |
+|  2 | DEPENDENT SUBQUERY | posTypes  | ALL    | PRIMARY             | NULL        | NULL    | NULL                  |      2 | Using where; Using join buffer |
++----+--------------------+-----------+--------+---------------------+-------------+---------+-----------------------+--------+--------------------------------+
+6 rows in set (0.00 sec)
