@@ -4,10 +4,14 @@
 
 - Added language and hasLanguage relations (we didn't previously store the language)
 
-- Removed releases relation and added it as an attribute on the productions relation (the IMDB data set contained only 1 release per production)
+- Removed releases relation and added it as an attribute on the productions relation
+  (the IMDB data set contained only 1 release per production)
 
-- Added country and hasCountry relations (we previously stored the country in the releases relation, but we removed it as explained above)
+- Added country and hasCountry relations (we previously stored the country in the
+  releases relation, but we removed it as explained above)
 
-- Removed prodTypes relation, because the IMDB data set did not contain the information to use it
+- Removed prodTypes relation, because the IMDB data set did not contain the information
+  to use it
 
-- Added ratings table of user ratings. This table contains no primary key constraints, as the data we are given contains no candidate key.
+- Added ratings table of user ratings. This table contains no primary key constraints,
+  as the data we are given contains no candidate key.
