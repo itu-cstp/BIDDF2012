@@ -161,22 +161,6 @@ CREATE TABLE `positionRoles` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `productionHasGenres`
---
-
-DROP TABLE IF EXISTS `productionHasGenres`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `productionHasGenres` (
-  `production_id` int(11) NOT NULL DEFAULT '0',
-  `genres_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (production_id,genres_id),
-  FOREIGN KEY (production_id) REFERENCES productions(id),
-  FOREIGN KEY (genres_id) REFERENCES genres(id)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `productions`
 --
 
@@ -204,7 +188,8 @@ DROP TABLE IF EXISTS `ratings`;
 CREATE TABLE `ratings` (
   `user` varchar(20) DEFAULT NULL,
   `movieId` int(11) DEFAULT NULL,
-  `rating` int(11) DEFAULT NULL
+  `rating` int(11) DEFAULT NULL,
+  FOREIGN KEY (movieId) REFERENCES productions(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
