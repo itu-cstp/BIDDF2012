@@ -14,26 +14,39 @@ SELECT    year(releaseDate), SUM(votes) FROM    productions GROUP BY  year(relea
 # We would liek a function based index for this. No speed to be gained from releaseDate index
 
 #Statement 3
-SELECT		productions.title
-FROM		productions, positions, persons
-WHERE		productions.id = positions.prodId AND
-persons.id = positions.persId AND
-persons.name LIKE "John Travolta" AND
-productions.id IN (	SELECT	productions.id
-FROM	productions, positions, persons 
-WHERE	productions.id = positions.prodId AND
-persons.id = positions.persId AND
-persons.name LIKE "Uma Thurman");
-									
+SELECT    productions.title
+FROM    productions, positions, persons, posTypes
+WHERE   productions.id = positions.prodId AND
+      persons.id = positions.persId AND
+      persons.name LIKE "John Travolta" AND
+      positions.posTypId = posTypes.id AND
+      posTypes.name LIKE "actor" AND
+      productions.id IN ( SELECT  productions.id
+                FROM  productions, positions, persons, posTypes
+                WHERE productions.id = positions.prodId AND
+                    persons.id = positions.persId AND
+                    persons.name LIKE "Uma Thurman" AND
+                    positions.posTypId = posTypes.id AND
+                    posTypes.name LIKE "actor" AND);
+
+create index nameIndex on persons (name);
+
+# Speed improvement galore (4 - 5 seconds down to almost none)
+
 #Statement 4
-SELECT		COUNT(*)
-FROM		persons, positions, positionRoles, roles
-WHERE		persons.name LIKE "Q%" AND
-			persons.id = positions.persId AND
-			positions.persId = positionRoles.posId AND
-			positionsRoles.roleId = roles.Id AND
-			(roles.name LIKE "Actor" OR roles.name LIKE "Director");
-		
+SELECT COUNT(*) FROM persons, positions, posTypes
+WHERE persons.name LIKE "Q%" AND 
+persons.id = positions.persId AND 
+positions.posId = positionRoles.posId AND 
+(posTypes.name like "Actor" OR posTypes.name like "Director");
+
+SELECT count(distinct(persons.id)) FROM persons, positions, posTypes 
+WHERE persons.name LIKE "Q%" AND       
+persons.id = positions.persId AND       
+positions.posTypId = posTypes.id AND       
+(posTypes.name LIKE "actor" OR posTypes.name LIKE "director");
+
+
 #Statement 5
 SELECT		COUNT(*) count
 FROM 		userVotes
