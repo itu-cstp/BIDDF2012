@@ -1,1 +1,0 @@
-insert into hasLanguage select movie.Id, language.Id from movie join language on movie.language = language.name;
